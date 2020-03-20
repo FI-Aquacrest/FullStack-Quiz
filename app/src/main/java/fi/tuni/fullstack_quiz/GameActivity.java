@@ -15,6 +15,7 @@ public class GameActivity extends Activity {
     Question currentQuestion;
     ArrayList<Question> askedQuestions = new ArrayList<>();
     int answeredQuestions = 0;
+    boolean gameEnd = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,12 +151,15 @@ public class GameActivity extends Activity {
     public void endGame() {
         MusicPlayer.StopMusic();
         MusicPlayer.ReleaseMusic();
+        gameEnd = true;
         finish();
     }
 
     @Override
     protected void onPause() {
-        MusicPlayer.PauseMusic();
+        if (!gameEnd) {
+            MusicPlayer.PauseMusic();
+        }
         super.onPause();
     }
 
@@ -167,8 +171,10 @@ public class GameActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        MusicPlayer.StopMusic();
-        MusicPlayer.ReleaseMusic();
+        if (!gameEnd) {
+            MusicPlayer.StopMusic();
+            MusicPlayer.ReleaseMusic();
+        }
         super.onDestroy();
     }
 }
