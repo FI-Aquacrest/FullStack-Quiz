@@ -1,21 +1,30 @@
 package fi.tuni.fullstack_quiz;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import java.util.ArrayList;
 
 public class GameActivity extends Activity {
     Question[] questions;
     Question currentQuestion;
+    ArrayList<Question> askedQuestions = new ArrayList<>();
+    int answeredQuestions = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        generateQuestions();
+    }
+
+    public void generateQuestions() {
         questions = new Question[]{
                 new Question("Which British boxer is nicknamed ‘King Khan’?",
                         new String[]{"Amir Khan", "John Doe", "Mary Jones", "Jacl Sparrow"}, 0),
@@ -27,8 +36,16 @@ public class GameActivity extends Activity {
     }
 
     public void askQuestion() {
-        int random = (int) (Math.random() * questions.length);
-        currentQuestion = questions[random];
+        do {
+            int random = (int) (Math.random() * questions.length);
+            currentQuestion = questions[random];
+        } while (askedQuestions.contains(currentQuestion) && answeredQuestions < questions.length);
+
+        if (answeredQuestions == questions.length) {
+            finish();
+        }
+
+        askedQuestions.add(currentQuestion);
 
         TextView questionView = findViewById(R.id.question_box);
         questionView.setText(currentQuestion.getQuestion());
@@ -49,44 +66,65 @@ public class GameActivity extends Activity {
     }
 
     public void answerQuestion(View v) {
-        boolean correct = false;
+        answeredQuestions++;
 
         switch (v.getId()) {
             case R.id.answer1:
                 if (currentQuestion.isCorrect(0)) {
-                    correctAnswer();
-                    correct = true;
+                    correctAnswer(findViewById(R.id.answer1));
+                } else {
+                    wrongAnswer(findViewById(R.id.answer1));
                 } break;
 
             case R.id.answer2:
                 if (currentQuestion.isCorrect(1)) {
-                    correctAnswer();
-                    correct = true;
+                    correctAnswer(findViewById(R.id.answer2));
+                } else {
+                    wrongAnswer(findViewById(R.id.answer2));
                 } break;
 
             case R.id.answer3:
                 if (currentQuestion.isCorrect(2)) {
-                    correctAnswer();
-                    correct = true;
+                    correctAnswer(findViewById(R.id.answer3));
+                } else {
+                    wrongAnswer(findViewById(R.id.answer3));
                 } break;
 
             case R.id.answer4:
                 if (currentQuestion.isCorrect(3)) {
-                    correctAnswer();
-                    correct = true;
+                    correctAnswer(findViewById(R.id.answer4));
+                } else {
+                    wrongAnswer(findViewById(R.id.answer4));
                 } break;
         }
-
-        if (!correct) {
-            wrongAnswer();
-        }
     }
 
-    public void correctAnswer() {
-        Log.d("QuestionAnswered", "Correct answer");
+    public void correctAnswer(View button) {
+        button.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+
+        TextView textView = findViewById(R.id.center_line);
+        textView.setText("Correct!");
+        textView.setTextColor(getResources().getColor(R.color.green));
+
+        clearAnswer(button, textView);
     }
 
-    public void wrongAnswer() {
-        Log.d("QuestionAnswered", "Wrong answer");
+    public void wrongAnswer(View button) {
+        button.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+
+        TextView textView = findViewById(R.id.center_line);
+        textView.setText("Wrong!");
+        textView.setTextColor(getResources().getColor(R.color.red));
+
+        clearAnswer(button, textView);
+    }
+
+    public void clearAnswer(View button, TextView textView) {
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            button.getBackground().clearColorFilter();
+            textView.setText("");
+            askQuestion();
+        }, 1000);
     }
 }
