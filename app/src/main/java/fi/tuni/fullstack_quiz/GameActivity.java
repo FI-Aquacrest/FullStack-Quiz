@@ -21,13 +21,16 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        MusicPlayer.InitMediaPlayer(this, R.raw.music);
+        MusicPlayer.PlayMusic();
+
         generateQuestions();
     }
 
     public void generateQuestions() {
         questions = new Question[]{
                 new Question("Which British boxer is nicknamed ‘King Khan’?",
-                        new String[]{"Amir Khan", "John Doe", "Mary Jones", "Jacl Sparrow"}, 0),
+                        new String[]{"Amir Khan", "John Doe", "Mary Jones", "Jack Sparrow"}, 0),
                 new Question("Complete the title of a famous hit for The Clovers “Love Potion No….”?",
                         new String[]{"15", "22", "1", "9"}, 3)
         };
@@ -42,7 +45,7 @@ public class GameActivity extends Activity {
         } while (askedQuestions.contains(currentQuestion) && answeredQuestions < questions.length);
 
         if (answeredQuestions == questions.length) {
-            finish();
+            endGame();
         }
 
         askedQuestions.add(currentQuestion);
@@ -54,47 +57,63 @@ public class GameActivity extends Activity {
 
         Button answer1 = findViewById(R.id.answer1);
         answer1.setText(answers[0]);
+        answer1.setClickable(true);
 
         Button answer2 = findViewById(R.id.answer2);
         answer2.setText(answers[1]);
+        answer2.setClickable(true);
 
         Button answer3 = findViewById(R.id.answer3);
         answer3.setText(answers[2]);
+        answer3.setClickable(true);
 
         Button answer4 = findViewById(R.id.answer4);
         answer4.setText(answers[3]);
+        answer4.setClickable(true);
     }
 
     public void answerQuestion(View v) {
         answeredQuestions++;
 
+        Button answer1 = findViewById(R.id.answer1);
+        answer1.setClickable(false);
+
+        Button answer2 = findViewById(R.id.answer2);
+        answer2.setClickable(false);
+
+        Button answer3 = findViewById(R.id.answer3);
+        answer3.setClickable(false);
+
+        Button answer4 = findViewById(R.id.answer4);
+        answer4.setClickable(false);
+
         switch (v.getId()) {
             case R.id.answer1:
                 if (currentQuestion.isCorrect(0)) {
-                    correctAnswer(findViewById(R.id.answer1));
+                    correctAnswer(answer1);
                 } else {
-                    wrongAnswer(findViewById(R.id.answer1));
+                    wrongAnswer(answer1);
                 } break;
 
             case R.id.answer2:
                 if (currentQuestion.isCorrect(1)) {
-                    correctAnswer(findViewById(R.id.answer2));
+                    correctAnswer(answer2);
                 } else {
-                    wrongAnswer(findViewById(R.id.answer2));
+                    wrongAnswer(answer2);
                 } break;
 
             case R.id.answer3:
                 if (currentQuestion.isCorrect(2)) {
-                    correctAnswer(findViewById(R.id.answer3));
+                    correctAnswer(answer3);
                 } else {
-                    wrongAnswer(findViewById(R.id.answer3));
+                    wrongAnswer(answer3);
                 } break;
 
             case R.id.answer4:
                 if (currentQuestion.isCorrect(3)) {
-                    correctAnswer(findViewById(R.id.answer4));
+                    correctAnswer(answer4);
                 } else {
-                    wrongAnswer(findViewById(R.id.answer4));
+                    wrongAnswer(answer4);
                 } break;
         }
     }
@@ -126,5 +145,30 @@ public class GameActivity extends Activity {
             textView.setText("");
             askQuestion();
         }, 1000);
+    }
+
+    public void endGame() {
+        MusicPlayer.StopMusic();
+        MusicPlayer.ReleaseMusic();
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        MusicPlayer.PauseMusic();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        MusicPlayer.ResumeMusic();
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        MusicPlayer.StopMusic();
+        MusicPlayer.ReleaseMusic();
+        super.onDestroy();
     }
 }
