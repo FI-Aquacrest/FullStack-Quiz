@@ -3,6 +3,7 @@ package fi.tuni.fullstack_quiz;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -17,6 +18,9 @@ public class GameActivity extends Activity {
     int answeredQuestions = 0;
     boolean gameEnd = false;
 
+    private SoundPool soundPool;
+    private int[] sounds = new int[2];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +28,10 @@ public class GameActivity extends Activity {
 
         MusicPlayer.InitMediaPlayer(this, R.raw.music);
         MusicPlayer.PlayMusic();
+
+        soundPool = SoundPoolUtils.createSoundPool();
+        sounds[0] = soundPool.load(this, R.raw.correct, 1);
+        sounds[1] = soundPool.load(this, R.raw.incorrect, 1);
 
         generateQuestions();
     }
@@ -120,6 +128,7 @@ public class GameActivity extends Activity {
     }
 
     public void correctAnswer(View button) {
+        soundPool.play(sounds[0],1, 1, 0, 0, 1f);
         button.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
 
         TextView textView = findViewById(R.id.center_line);
@@ -130,6 +139,7 @@ public class GameActivity extends Activity {
     }
 
     public void wrongAnswer(View button) {
+        soundPool.play(sounds[1],1, 1, 0, 0, 1f);
         button.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
 
         TextView textView = findViewById(R.id.center_line);
@@ -175,6 +185,10 @@ public class GameActivity extends Activity {
             MusicPlayer.StopMusic();
             MusicPlayer.ReleaseMusic();
         }
+
+        soundPool.release();
+        soundPool = null;
+
         super.onDestroy();
     }
 }

@@ -3,42 +3,43 @@ package fi.tuni.fullstack_quiz;
 import android.content.Context;
 import android.media.MediaPlayer;
 
-public class MusicPlayer {
+class MusicPlayer {
     private static MediaPlayer mediaPlayer;
     private static int pausedAt;
 
-    public static void InitMediaPlayer(Context c, int source) {
+    static void InitMediaPlayer(Context c, int source) {
         mediaPlayer = MediaPlayer.create(c, source);
+        mediaPlayer.setVolume(0.5f, 0.5f);
     }
 
-    public static void PauseMusic() {
+    static void PauseMusic() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             pausedAt = mediaPlayer.getCurrentPosition();
             mediaPlayer.pause();
         }
     }
 
-    public static void PlayMusic() {
+    static void PlayMusic() {
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             mediaPlayer.setLooping(true);
             mediaPlayer.start();
         }
     }
 
-    public static void ResumeMusic() {
+    static void ResumeMusic() {
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             mediaPlayer.seekTo(pausedAt);
             mediaPlayer.start();
         }
     }
 
-    public static void StopMusic() {
+    static void StopMusic() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
         }
     }
 
-    public static void ReleaseMusic() {
+    static void ReleaseMusic() {
         if (mediaPlayer != null) {
             mediaPlayer.release();
         }
