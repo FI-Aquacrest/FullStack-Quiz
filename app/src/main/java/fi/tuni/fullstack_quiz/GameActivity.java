@@ -162,7 +162,26 @@ public class GameActivity extends Activity {
         MusicPlayer.StopMusic();
         MusicPlayer.ReleaseMusic();
         gameEnd = true;
-        finish();
+
+        TextView questionView = findViewById(R.id.question_box);
+        TextView centerLine = findViewById(R.id.center_line);
+        Button answer1 = findViewById(R.id.answer1);
+        Button answer2 = findViewById(R.id.answer2);
+        Button answer3 = findViewById(R.id.answer3);
+        Button answer4 = findViewById(R.id.answer4);
+
+        questionView.setVisibility(View.GONE);
+        answer1.setVisibility(View.GONE);
+        answer2.setVisibility(View.GONE);
+        answer3.setVisibility(View.GONE);
+        answer4.setVisibility(View.GONE);
+
+        centerLine.setTextColor(getResources().getColor(R.color.gray));
+        centerLine.setText("Game Over");
+        centerLine.setTextSize(40);
+
+        Handler handler = new Handler();
+        handler.postDelayed(this::finish, 2500);
     }
 
     @Override
