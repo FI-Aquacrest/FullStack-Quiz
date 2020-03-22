@@ -9,19 +9,35 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
+/**
+ * Provides core game functionality.
+ */
 public class GameActivity extends Activity {
+
+    // Holds all of the questions fetched or generated on startup.
     LinkedList<Question> questions = new LinkedList<>();
+
+    // Current question being asked.
     Question currentQuestion;
-    ArrayList<Question> askedQuestions = new ArrayList<>();
+
+    // Prevents the app from attempting to release the SoundPool multiple times.
     boolean gameEnd = false;
 
+    // Holds the required sound effects.
     private SoundPool soundPool;
+
+    // sounds[0] = correct -sound
+    // sounds[1] = incorrect -sound
     private int[] sounds = new int[2];
 
+    /**
+     * Creates UI, starts music and loads sound effects.
+     *
+     * @param savedInstanceState Not used.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +53,13 @@ public class GameActivity extends Activity {
         generateQuestions();
     }
 
+    /**
+     * Fills the questions -list with questions and shuffles the list.
+     */
     public void generateQuestions() {
         questions.add(new Question("Which British boxer is nicknamed ‘King Khan’?",
                         new String[]{"Amir Khan", "John Adams", "Joseph McCarthy", "Ben Summers"}, 0));
-        questions.add(new Question("Complete the title of a famous hit for The Clovers “Love Potion No….”?",
+        questions.add(new Question("Complete the title of a famous hit for The Clovers \"Love Potion No….\"?",
                         new String[]{"15", "22", "1", "9"}, 3));
         questions.add(new Question("In which English city is Meadowhall Railway Station?",
                 new String[]{"Bristol", "Wells", "Sheffield", "Oxford"}, 2));
@@ -63,6 +82,12 @@ public class GameActivity extends Activity {
         askQuestion();
     }
 
+    /**
+     * Displays a question by altering text within the UI objects.
+     *
+     * Whenever a question is asked, it is removed from the list to prevent
+     * it from being asked again. When the list is empty, the game ends.
+     */
     public void askQuestion() {
         if (questions.isEmpty()) {
             endGame();
@@ -70,8 +95,6 @@ public class GameActivity extends Activity {
             currentQuestion = questions.getFirst();
             questions.remove(currentQuestion);
         }
-
-        askedQuestions.add(currentQuestion);
 
         TextView questionView = findViewById(R.id.question_box);
         questionView.setText(currentQuestion.getQuestion());
@@ -95,7 +118,14 @@ public class GameActivity extends Activity {
         answer4.setClickable(true);
     }
 
+    /**
+     * Checks if the given answer is correct.
+     *
+     * @param v Pressed answer-button.
+     */
     public void answerQuestion(View v) {
+
+        // Prevents the buttons from being clicked before the next question is asked.
         Button answer1 = findViewById(R.id.answer1);
         answer1.setClickable(false);
 
@@ -108,6 +138,7 @@ public class GameActivity extends Activity {
         Button answer4 = findViewById(R.id.answer4);
         answer4.setClickable(false);
 
+        // Checks which button was pressed and determines if answer was correct.
         switch (v.getId()) {
             case R.id.answer1:
                 if (currentQuestion.isCorrect(0)) {
@@ -139,6 +170,11 @@ public class GameActivity extends Activity {
         }
     }
 
+    /**
+     * Plays a sound, shows a text and turns the pressed button green to indicate a correct answer.
+     *
+     * @param button Button to be colored.
+     */
     public void correctAnswer(View button) {
         soundPool.play(sounds[0],1, 1, 0, 0, 1f);
         button.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
@@ -150,6 +186,11 @@ public class GameActivity extends Activity {
         clearAnswer(button, textView);
     }
 
+    /**
+     * Plays a sound, shows a text and turns the pressed button red to indicate an incorrect answer.
+     *
+     * @param button Button to be colored.
+     */
     public void wrongAnswer(View button) {
         soundPool.play(sounds[1],1, 1, 0, 0, 1f);
         button.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
@@ -161,6 +202,12 @@ public class GameActivity extends Activity {
         clearAnswer(button, textView);
     }
 
+    /**
+     * Clears the pressed button's color and hides the middle text after a delay.
+     *
+     * @param button Pressed button that has been colored.
+     * @param textView Middle text that displays "Correct" or "Incorrect"
+     */
     public void clearAnswer(View button, TextView textView) {
         Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -170,6 +217,9 @@ public class GameActivity extends Activity {
         }, 1000);
     }
 
+    /**
+     * Stops the music and hides the UI components to display a game-over screen.
+     */
     public void endGame() {
         MusicPlayer.StopMusic();
         MusicPlayer.ReleaseMusic();
@@ -192,10 +242,14 @@ public class GameActivity extends Activity {
         centerLine.setText("Game Over");
         centerLine.setTextSize(40);
 
+        // Exits the Activity after a 2.5 second game-over screen.
         Handler handler = new Handler();
         handler.postDelayed(this::finish, 2500);
     }
 
+    /**
+     * Pauses the music so it can be continued when the app is refocused.
+     */
     @Override
     protected void onPause() {
         if (!gameEnd) {
@@ -204,12 +258,18 @@ public class GameActivity extends Activity {
         super.onPause();
     }
 
+    /**
+     * Continues the music,
+     */
     @Override
     protected void onResume() {
         MusicPlayer.ResumeMusic();
         super.onResume();
     }
 
+    /**
+     * Stops the music and releases the MusicPlayer and the SoundPool.
+     */
     @Override
     protected void onDestroy() {
         if (!gameEnd) {

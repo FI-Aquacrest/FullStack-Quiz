@@ -11,12 +11,23 @@ import android.view.View;
 import android.widget.PopupWindow;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+/**
+ * Provides user with a menu screen on startup.
+ */
 public class TitleScreenActivity extends Activity {
+
+    // Used for controlling sound effects
     private SoundPool soundPool;
     int buttonSound;
 
+    // Holds copyright information
     PopupWindow aboutWindow;
 
+    /**
+     * Initiates the UI for the main menu and loads button sounds.
+     *
+     * @param savedInstanceState Not used.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,16 +38,26 @@ public class TitleScreenActivity extends Activity {
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
+    /**
+     * Launches the game.
+     *
+     * @param v Pressed Button object.
+     */
     public void startGame(View v) {
         soundPool.play(buttonSound,1, 1, 0, 0, 1f);
 
         startActivity(new Intent(this, GameActivity.class));
     }
 
-    public void submitQuestion(View v) {
-        soundPool.play(buttonSound,1, 1, 0, 0, 1f);
-    }
+//    public void submitQuestion(View v) {
+//        soundPool.play(buttonSound,1, 1, 0, 0, 1f);
+//    }
 
+    /**
+     * Shows the About-popup, containing required information about the app.
+     *
+     * @param v Pressed Button object.
+     */
     public void aboutApp(View v) {
         soundPool.play(buttonSound,1, 1, 0, 0, 1f);
 
@@ -53,10 +74,18 @@ public class TitleScreenActivity extends Activity {
         aboutWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
     }
 
+    /**
+     * Closes the About-popup.
+     *
+     * @param v Pressed Button object.
+     */
     public void closePopup(View v) {
         aboutWindow.dismiss();
     }
 
+    /**
+     * Releases the SoundPool before closing the activity.
+     */
     @Override
     protected void onDestroy() {
         soundPool.release();

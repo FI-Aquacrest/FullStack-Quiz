@@ -16,6 +16,7 @@
         app:layout_constraintBottom_toTopOf="@+id/center_line"
         android:textAlignment="center"
         android:text="Example Question"
+        android:layout_margin="20dp"
         android:textSize="30sp"
         android:gravity="center_horizontal" />
 

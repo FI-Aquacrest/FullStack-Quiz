@@ -6,8 +6,16 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 
+/**
+ * Contains methods for creating a SoundPool based on the current Build version.
+ */
 class SoundPoolUtils {
 
+    /**
+     * Creates a sound pool based on the Android Build version.
+     *
+     * @return SoundPool object tailored for the system in use.
+     */
     static SoundPool createSoundPool() {
         SoundPool sounds;
 
