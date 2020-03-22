@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">FullStack-Quiz</string>
+
+    <string name="about">
+        <b><i>FullStack-Quiz - Release 1</i></b>
+        \n\n\n
+        <b><i>This game uses the following sounds from freesound:</i></b>
+        \n\n
+        Video Game 7.wav by djgriffin \n
+        https://freesound.org/people/djgriffin
+        \n\n
+        User Interface Clicks and Buttons 1.wav by original_sound \n
+        https://freesound.org/people/original_sound
+        \n\n
+        Correct Choice by unadamlar \n
+        https://freesound.org/people/unadamlar
+        \n\n
+        Wrong Choice by unadamlar \n
+        https://freesound.org/people/unadamlar
+        \n\n\n
+        <b><i>The code for this project is freely viewable at:</i></b> \n
+        https://github.com/FI-Aquacrest/FullStack-Quiz
+    </string>
 </resources>
