@@ -10,12 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public class GameActivity extends Activity {
-    Question[] questions;
+    LinkedList<Question> questions = new LinkedList<>();
     Question currentQuestion;
     ArrayList<Question> askedQuestions = new ArrayList<>();
-    int answeredQuestions = 0;
     boolean gameEnd = false;
 
     private SoundPool soundPool;
@@ -37,24 +38,37 @@ public class GameActivity extends Activity {
     }
 
     public void generateQuestions() {
-        questions = new Question[]{
-                new Question("Which British boxer is nicknamed ‘King Khan’?",
-                        new String[]{"Amir Khan", "John Doe", "Mary Jones", "Jack Sparrow"}, 0),
-                new Question("Complete the title of a famous hit for The Clovers “Love Potion No….”?",
-                        new String[]{"15", "22", "1", "9"}, 3)
-        };
+        questions.add(new Question("Which British boxer is nicknamed ‘King Khan’?",
+                        new String[]{"Amir Khan", "John Adams", "Joseph McCarthy", "Ben Summers"}, 0));
+        questions.add(new Question("Complete the title of a famous hit for The Clovers “Love Potion No….”?",
+                        new String[]{"15", "22", "1", "9"}, 3));
+        questions.add(new Question("In which English city is Meadowhall Railway Station?",
+                new String[]{"Bristol", "Wells", "Sheffield", "Oxford"}, 2));
+        questions.add(new Question("Who became quizmaster of the BBC’s ‘University Challenge’ in 1994?",
+                new String[]{"Theresa Lemaire", "Jeremy Paxman", "Louis Myers", "Gregory Dykes"}, 1));
+        questions.add(new Question("David Lloyd George was British Prime Minister during the reign of which monarch?",
+                new String[]{"Henry VIII", "Elizabeth I", "George V", "James II"}, 2));
+        questions.add(new Question("In which 2000 film starring Jude Law does former boxer Ricky Grover make a cameo appearance?",
+                new String[]{"Cast Away", "Love, Honour and Obey", "What Lies Beneath", "The Big Tease"}, 1));
+        questions.add(new Question("The Belgian beer ‘Kriek’ is flavoured with which fruit?",
+                new String[]{"Citrus", "Banana", "Cherry", "Pineapple"}, 2));
+        questions.add(new Question("In the game of ‘Connect Four’, how many counters must a player get in a row to win a game?",
+                new String[]{"3", "8", "40", "4"}, 3));
+        questions.add(new Question("The 18th Century Convention of Kanagawa was a ‘Treaty of Amity and Friendship’ between Japan and which other country?",
+                new String[]{"United States", "France", "Russia", "United Kingdom"}, 0));
+        questions.add(new Question("In computing, how many bits are in one byte?",
+                new String[]{"32", "8", "16", "64"}, 1));
 
+        Collections.shuffle(questions);
         askQuestion();
     }
 
     public void askQuestion() {
-        do {
-            int random = (int) (Math.random() * questions.length);
-            currentQuestion = questions[random];
-        } while (askedQuestions.contains(currentQuestion) && answeredQuestions < questions.length);
-
-        if (answeredQuestions == questions.length) {
+        if (questions.isEmpty()) {
             endGame();
+        } else {
+            currentQuestion = questions.getFirst();
+            questions.remove(currentQuestion);
         }
 
         askedQuestions.add(currentQuestion);
@@ -82,8 +96,6 @@ public class GameActivity extends Activity {
     }
 
     public void answerQuestion(View v) {
-        answeredQuestions++;
-
         Button answer1 = findViewById(R.id.answer1);
         answer1.setClickable(false);
 
