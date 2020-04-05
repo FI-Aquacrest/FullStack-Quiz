@@ -1,6 +1,5 @@
 package fi.tuni.fullstack_quiz;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -9,12 +8,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 /**
  * Provides user with a menu screen on startup.
  */
-public class TitleScreenActivity extends Activity {
+public class TitleScreenActivity extends AppCompatActivity {
 
     // Used for controlling sound effects
     private SoundPool soundPool;

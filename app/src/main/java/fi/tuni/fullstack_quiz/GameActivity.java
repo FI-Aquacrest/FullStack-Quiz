@@ -1,24 +1,32 @@
 package fi.tuni.fullstack_quiz;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.concurrent.ExecutionException;
+
+import fi.tuni.fullstack_quiz.db.Question;
+import fi.tuni.fullstack_quiz.db.QuestionRepository;
+import fi.tuni.fullstack_quiz.db.QuestionsAsyncTask;
 
 /**
  * Provides core game functionality.
  */
-public class GameActivity extends Activity {
+public class GameActivity extends AppCompatActivity {
 
     // Holds all of the questions fetched or generated on startup.
-    LinkedList<Question> questions = new LinkedList<>();
+    LinkedList<Question> questions;
 
     // Current question being asked.
     Question currentQuestion;
@@ -50,33 +58,33 @@ public class GameActivity extends Activity {
         sounds[0] = soundPool.load(this, R.raw.correct, 1);
         sounds[1] = soundPool.load(this, R.raw.incorrect, 1);
 
-        generateQuestions();
+        getQuestions();
     }
 
     /**
      * Fills the questions -list with questions and shuffles the list.
      */
-    public void generateQuestions() {
-        questions.add(new Question("Which British boxer is nicknamed ‘King Khan’?",
-                        new String[]{"Amir Khan", "John Adams", "Joseph McCarthy", "Ben Summers"}, 0));
-        questions.add(new Question("Complete the title of a famous hit for The Clovers \"Love Potion No….\"?",
-                        new String[]{"15", "22", "1", "9"}, 3));
-        questions.add(new Question("In which English city is Meadowhall Railway Station?",
-                new String[]{"Bristol", "Wells", "Sheffield", "Oxford"}, 2));
-        questions.add(new Question("Who became quizmaster of the BBC’s ‘University Challenge’ in 1994?",
-                new String[]{"Theresa Lemaire", "Jeremy Paxman", "Louis Myers", "Gregory Dykes"}, 1));
-        questions.add(new Question("David Lloyd George was British Prime Minister during the reign of which monarch?",
-                new String[]{"Henry VIII", "Elizabeth I", "George V", "James II"}, 2));
-        questions.add(new Question("In which 2000 film starring Jude Law does former boxer Ricky Grover make a cameo appearance?",
-                new String[]{"Cast Away", "Love, Honour and Obey", "What Lies Beneath", "The Big Tease"}, 1));
-        questions.add(new Question("The Belgian beer ‘Kriek’ is flavoured with which fruit?",
-                new String[]{"Citrus", "Banana", "Cherry", "Pineapple"}, 2));
-        questions.add(new Question("In the game of ‘Connect Four’, how many counters must a player get in a row to win a game?",
-                new String[]{"3", "8", "40", "4"}, 3));
-        questions.add(new Question("The 18th Century Convention of Kanagawa was a ‘Treaty of Amity and Friendship’ between Japan and which other country?",
-                new String[]{"United States", "France", "Russia", "United Kingdom"}, 0));
-        questions.add(new Question("In computing, how many bits are in one byte?",
-                new String[]{"32", "8", "16", "64"}, 1));
+    public void getQuestions() {
+        questions = new LinkedList<>();
+
+        QuestionsAsyncTask asyncTask = new QuestionsAsyncTask();
+
+        try {
+            QuestionRepository repo = asyncTask.execute(getApplication()).get();
+
+            questions.addAll(repo.getAllQuestions());
+
+            // Remove random questions until there are only 10 left.
+            while (questions.size() > 10) {
+                questions.remove((int) (Math.random() * questions.size()));
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("QuestionAmount", Integer.toString(questions.size()));
 
         Collections.shuffle(questions);
         askQuestion();
@@ -94,28 +102,26 @@ public class GameActivity extends Activity {
         } else {
             currentQuestion = questions.getFirst();
             questions.remove(currentQuestion);
+
+            TextView questionView = findViewById(R.id.question_box);
+            questionView.setText(currentQuestion.getQuestion());
+
+            Button answer1 = findViewById(R.id.answer1);
+            answer1.setText(currentQuestion.getAnswer1());
+            answer1.setClickable(true);
+
+            Button answer2 = findViewById(R.id.answer2);
+            answer2.setText(currentQuestion.getAnswer2());
+            answer2.setClickable(true);
+
+            Button answer3 = findViewById(R.id.answer3);
+            answer3.setText(currentQuestion.getAnswer3());
+            answer3.setClickable(true);
+
+            Button answer4 = findViewById(R.id.answer4);
+            answer4.setText(currentQuestion.getAnswer4());
+            answer4.setClickable(true);
         }
-
-        TextView questionView = findViewById(R.id.question_box);
-        questionView.setText(currentQuestion.getQuestion());
-
-        String[] answers = currentQuestion.getAnswers();
-
-        Button answer1 = findViewById(R.id.answer1);
-        answer1.setText(answers[0]);
-        answer1.setClickable(true);
-
-        Button answer2 = findViewById(R.id.answer2);
-        answer2.setText(answers[1]);
-        answer2.setClickable(true);
-
-        Button answer3 = findViewById(R.id.answer3);
-        answer3.setText(answers[2]);
-        answer3.setClickable(true);
-
-        Button answer4 = findViewById(R.id.answer4);
-        answer4.setText(answers[3]);
-        answer4.setClickable(true);
     }
 
     /**
@@ -141,28 +147,28 @@ public class GameActivity extends Activity {
         // Checks which button was pressed and determines if answer was correct.
         switch (v.getId()) {
             case R.id.answer1:
-                if (currentQuestion.isCorrect(0)) {
+                if (currentQuestion.getCorrectIndex() == 0) {
                     correctAnswer(answer1);
                 } else {
                     wrongAnswer(answer1);
                 } break;
 
             case R.id.answer2:
-                if (currentQuestion.isCorrect(1)) {
+                if (currentQuestion.getCorrectIndex() == 1) {
                     correctAnswer(answer2);
                 } else {
                     wrongAnswer(answer2);
                 } break;
 
             case R.id.answer3:
-                if (currentQuestion.isCorrect(2)) {
+                if (currentQuestion.getCorrectIndex() == 2) {
                     correctAnswer(answer3);
                 } else {
                     wrongAnswer(answer3);
                 } break;
 
             case R.id.answer4:
-                if (currentQuestion.isCorrect(3)) {
+                if (currentQuestion.getCorrectIndex() == 3) {
                     correctAnswer(answer4);
                 } else {
                     wrongAnswer(answer4);
