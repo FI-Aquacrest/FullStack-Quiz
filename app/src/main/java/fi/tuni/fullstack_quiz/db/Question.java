@@ -26,8 +26,8 @@ public class Question {
      * TBA Four (4) answers in String form.
      * @param correctIndex Index to the position of the correct answer (0-3).
      */
-    Question(String question, String answer1, String answer2,
-             String answer3, String answer4, int correctIndex) {
+    public Question(String question, String answer1, String answer2,
+                    String answer3, String answer4, int correctIndex) {
         this.question = question;
         this.answer1 = answer1;
         this.answer2 = answer2;
@@ -36,11 +36,11 @@ public class Question {
         this.correctIndex = correctIndex;
     }
 
-    public void setQuestionID(int questionID) {
+    void setQuestionID(int questionID) {
         this.questionID = questionID;
     }
 
-    public int getQuestionID() {
+    int getQuestionID() {
         return questionID;
     }
 

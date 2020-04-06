@@ -49,9 +49,11 @@ public class TitleScreenActivity extends AppCompatActivity {
         startActivity(new Intent(this, GameActivity.class));
     }
 
-//    public void submitQuestion(View v) {
-//        soundPool.play(buttonSound,1, 1, 0, 0, 1f);
-//    }
+    public void submitQuestion(View v) {
+        soundPool.play(buttonSound,1, 1, 0, 0, 1f);
+
+        startActivity(new Intent(this, SubmitActivity.class));
+    }
 
     /**
      * Shows the About-popup, containing required information about the app.

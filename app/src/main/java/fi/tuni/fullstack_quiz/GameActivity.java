@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 
 import fi.tuni.fullstack_quiz.db.Question;
 import fi.tuni.fullstack_quiz.db.QuestionRepository;
-import fi.tuni.fullstack_quiz.db.QuestionsAsyncTask;
+import fi.tuni.fullstack_quiz.db.GetRepoAsyncTask;
 
 /**
  * Provides core game functionality.
@@ -67,7 +67,7 @@ public class GameActivity extends AppCompatActivity {
     public void getQuestions() {
         questions = new LinkedList<>();
 
-        QuestionsAsyncTask asyncTask = new QuestionsAsyncTask();
+        GetRepoAsyncTask asyncTask = new GetRepoAsyncTask();
 
         try {
             QuestionRepository repo = asyncTask.execute(getApplication()).get();

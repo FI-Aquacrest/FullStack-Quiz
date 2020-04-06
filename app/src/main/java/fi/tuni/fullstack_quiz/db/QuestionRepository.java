@@ -9,7 +9,7 @@ public class QuestionRepository {
     private QuestionDao mQuestionDao;
     private List<Question> mAllQuestions;
 
-    public QuestionRepository(Application application) {
+    QuestionRepository(Application application) {
         QuestionRoomDatabase db = QuestionRoomDatabase.getDatabase(application);
         mQuestionDao = db.questionDao();
         mAllQuestions = mQuestionDao.getQuestions();
@@ -19,7 +19,7 @@ public class QuestionRepository {
         return mAllQuestions;
     }
 
-    void insert(Question question) {
+    public void insert(Question question) {
         QuestionRoomDatabase.databaseWriteExecutor.execute(() -> mQuestionDao.insert(question));
     }
 }

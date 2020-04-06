@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/edit_question_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/submit_center_line"
+        android:textAlignment="center"
+        android:inputType="textMultiLine"
+        android:maxLength="150"
+        android:hint="Question"
+        android:autofillHints="Question"
+        android:layout_margin="20dp"
+        android:textSize="30sp"
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/submit_center_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="15sp"
+        android:textAlignment="center"
+        android:gravity="center" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/answer_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submit_center_line">
+
+        <RadioButton
+            android:id="@+id/correct_choice1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toLeftOf="@+id/edit_answer1"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/edit_answer1"
+            app:layout_constraintBottom_toBottomOf="@id/edit_answer1" />
+
+        <RadioButton
+            android:id="@+id/correct_choice2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toRightOf="@+id/edit_answer4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/edit_answer4"
+            app:layout_constraintBottom_toBottomOf="@id/edit_answer4" />
+
+        <RadioButton
+            android:id="@+id/correct_choice3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintRight_toLeftOf="@+id/edit_answer3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/edit_answer3"
+            app:layout_constraintBottom_toBottomOf="@id/edit_answer3" />
+
+        <RadioButton
+            android:id="@+id/correct_choice4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toRightOf="@+id/edit_answer2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/edit_answer2"
+            app:layout_constraintBottom_toBottomOf="@id/edit_answer2" />
+
+        <EditText
+            android:id="@+id/edit_answer1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2.5dp"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginEnd="2.5dp"
+            android:layout_marginRight="2.5dp"
+            android:textAllCaps="false"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:inputType="text"
+            android:maxLength="30"
+            android:hint="Answer 1"
+            android:autofillHints="Answer 1"
+            app:layout_constraintEnd_toStartOf="@+id/edit_answer2"
+            app:layout_constraintStart_toEndOf="@+id/correct_choice1"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edit_answer2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2.5dp"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginEnd="2.5dp"
+            android:layout_marginRight="2.5dp"
+            android:textAllCaps="false"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:inputType="text"
+            android:maxLength="30"
+            android:hint="Answer 2"
+            android:autofillHints="Answer 2"
+            app:layout_constraintEnd_toStartOf="@id/correct_choice2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/edit_answer1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edit_answer3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2.5dp"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginEnd="2.5dp"
+            android:layout_marginRight="2.5dp"
+            android:textAllCaps="false"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:inputType="text"
+            android:maxLength="30"
+            android:hint="Answer 3"
+            android:autofillHints="Answer 3"
+            app:layout_constraintEnd_toStartOf="@+id/edit_answer4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/correct_choice3"
+            app:layout_constraintTop_toBottomOf="@id/edit_answer1" />
+
+        <EditText
+            android:id="@+id/edit_answer4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2.5dp"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginEnd="2.5dp"
+            android:layout_marginRight="2.5dp"
+            android:textAllCaps="false"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:inputType="text"
+            android:maxLength="30"
+            android:hint="Answer 4"
+            android:autofillHints="Answer 4"
+            app:layout_constraintEnd_toStartOf="@id/correct_choice4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/edit_answer3"
+            app:layout_constraintTop_toBottomOf="@id/edit_answer2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/done_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:onClick="saveQuestion"
+        android:text="Save"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/answer_box"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
