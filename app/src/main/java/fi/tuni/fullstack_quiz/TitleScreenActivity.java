@@ -49,6 +49,11 @@ public class TitleScreenActivity extends AppCompatActivity {
         startActivity(new Intent(this, GameActivity.class));
     }
 
+    /**
+     * Opens an activity for saving questions to the database.
+     *
+     * @param v Pressed Button object.
+     */
     public void submitQuestion(View v) {
         soundPool.play(buttonSound,1, 1, 0, 0, 1f);
 

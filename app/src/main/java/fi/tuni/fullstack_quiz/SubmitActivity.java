@@ -15,6 +15,9 @@ import fi.tuni.fullstack_quiz.db.GetRepoAsyncTask;
 import fi.tuni.fullstack_quiz.db.Question;
 import fi.tuni.fullstack_quiz.db.QuestionRepository;
 
+/**
+ * This activity is used to add new questions to the database.
+ */
 public class SubmitActivity extends AppCompatActivity {
 
     RadioButton correct1;
@@ -22,14 +25,18 @@ public class SubmitActivity extends AppCompatActivity {
     RadioButton correct3;
     RadioButton correct4;
 
+    // Make sure a radio button is pressed before submitting.
     boolean correctChoiceSelected = false;
 
+    /**
+     * Sets the UI and connects the RadioButtons to each other.
+     *
+     * @param savedInstanceState Not used.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
-
-
 
         correct1 = findViewById(R.id.correct_choice1);
         correct2 = findViewById(R.id.correct_choice2);
@@ -69,6 +76,11 @@ public class SubmitActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Validates and saves the question to the database.
+     *
+     * @param view Pressed "Save" button
+     */
     public void saveQuestion(View view) {
         EditText questionView = findViewById(R.id.edit_question_box);
         EditText answer1 = findViewById(R.id.edit_answer1);
@@ -76,6 +88,7 @@ public class SubmitActivity extends AppCompatActivity {
         EditText answer3 = findViewById(R.id.edit_answer3);
         EditText answer4 = findViewById(R.id.edit_answer4);
 
+        // Check that all fields have text on them and that a radiobutton has been clicked.
         if (questionView.getText().toString().equals("") || answer1.getText().toString().equals("") ||
         answer2.getText().toString().equals("") || answer3.getText().toString().equals("") ||
         answer4.getText().toString().equals("") || !correctChoiceSelected) {

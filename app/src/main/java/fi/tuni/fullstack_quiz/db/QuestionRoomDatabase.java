@@ -9,6 +9,9 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * RoomDatabase class for the questions.
+ */
 @Database(entities = {Question.class}, version = 1, exportSchema = false)
 public abstract class QuestionRoomDatabase extends RoomDatabase {
 
@@ -19,6 +22,7 @@ public abstract class QuestionRoomDatabase extends RoomDatabase {
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
+    // Returns the database, creates it from the given asset file if does not exist.
     static QuestionRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (QuestionRoomDatabase.class) {

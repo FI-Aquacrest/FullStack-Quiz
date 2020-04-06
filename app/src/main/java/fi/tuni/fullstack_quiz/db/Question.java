@@ -36,10 +36,20 @@ public class Question {
         this.correctIndex = correctIndex;
     }
 
+    /**
+     * Sets the ID. Only used by the database.
+     *
+     * @param questionID ID to set.
+     */
     void setQuestionID(int questionID) {
         this.questionID = questionID;
     }
 
+    /**
+     * Returns the ID. Only used by the database.
+     *
+     * @return ID of this question.
+     */
     int getQuestionID() {
         return questionID;
     }
@@ -53,22 +63,47 @@ public class Question {
         return question;
     }
 
+    /**
+     * Returns the first answer.
+     *
+     * @return First answer.
+     */
     public String getAnswer1() {
         return answer1;
     }
 
+    /**
+     * Returns the second answer.
+     *
+     * @return Second answer.
+     */
     public String getAnswer2() {
         return answer2;
     }
 
+    /**
+     * Returns the third answer.
+     *
+     * @return Third answer.
+     */
     public String getAnswer3() {
         return answer3;
     }
 
+    /**
+     * Returns the fourth answer.
+     *
+     * @return Fourth answer.
+     */
     public String getAnswer4() {
         return answer4;
     }
 
+    /**
+     * Returns the index of the correct answer. (0-3)
+     *
+     * @return Index pointer to the correct answer.
+     */
     public int getCorrectIndex() {
         return this.correctIndex;
     }

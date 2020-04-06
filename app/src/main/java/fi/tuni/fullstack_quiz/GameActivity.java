@@ -41,6 +41,7 @@ public class GameActivity extends AppCompatActivity {
     // sounds[1] = incorrect -sound
     private int[] sounds = new int[2];
 
+    // Amount of answers answered correctly.
     int correctAnswers = 0;
 
     /**
@@ -65,6 +66,8 @@ public class GameActivity extends AppCompatActivity {
 
     /**
      * Fills the questions -list with questions and shuffles the list.
+     *
+     * If the list is longer than 10, drops random questions until there are only 10 left.
      */
     public void getQuestions() {
         questions = new LinkedList<>();
@@ -85,8 +88,6 @@ public class GameActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        Log.d("QuestionAmount", Integer.toString(questions.size()));
 
         Collections.shuffle(questions);
         askQuestion();

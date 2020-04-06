@@ -7,6 +7,9 @@ import androidx.room.Query;
 
 import java.util.List;
 
+/**
+ * Holds methods that handle the SQL queries.
+ */
 @Dao
 public interface QuestionDao {
 
