@@ -41,6 +41,8 @@ public class GameActivity extends AppCompatActivity {
     // sounds[1] = incorrect -sound
     private int[] sounds = new int[2];
 
+    int correctAnswers = 0;
+
     /**
      * Creates UI, starts music and loads sound effects.
      *
@@ -185,6 +187,8 @@ public class GameActivity extends AppCompatActivity {
         soundPool.play(sounds[0],1, 1, 0, 0, 1f);
         button.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
 
+        correctAnswers++;
+
         TextView textView = findViewById(R.id.center_line);
         textView.setText("Correct!");
         textView.setTextColor(getResources().getColor(R.color.green));
@@ -245,7 +249,7 @@ public class GameActivity extends AppCompatActivity {
         answer4.setVisibility(View.GONE);
 
         centerLine.setTextColor(getResources().getColor(R.color.gray));
-        centerLine.setText("Game Over");
+        centerLine.setText("Game Over" + "\n" + "Final Score: " + correctAnswers + "/10");
         centerLine.setTextSize(40);
 
         // Exits the Activity after a 2.5 second game-over screen.
