@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 /**
  * RoomDatabase class for the questions.
  */
-@Database(entities = {Question.class}, version = 1, exportSchema = false)
+@Database(entities = {Question.class}, version = 2, exportSchema = false)
 public abstract class QuestionRoomDatabase extends RoomDatabase {
 
     public abstract QuestionDao questionDao();
