@@ -28,6 +28,11 @@ class SoundPoolUtils {
         return sounds;
     }
 
+    /**
+     * Creates a SoundPool for newer Android versions.
+     *
+     * @return SoundPool created with the Builder class.
+     */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private static SoundPool createNewSoundPool(){
         AudioAttributes attributes = new AudioAttributes.Builder()
@@ -39,6 +44,11 @@ class SoundPoolUtils {
                 .build();
     }
 
+    /**
+     * Creates a SoundPool for older Android versions.
+     *
+     * @return SoundPool created using its constructor.
+     */
     private static SoundPool createOldSoundPool(){
         return new SoundPool(5, AudioManager.STREAM_MUSIC,0);
     }

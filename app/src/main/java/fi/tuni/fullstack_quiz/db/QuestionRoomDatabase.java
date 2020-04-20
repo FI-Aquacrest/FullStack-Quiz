@@ -22,7 +22,12 @@ public abstract class QuestionRoomDatabase extends RoomDatabase {
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    // Returns the database, creates it from the given asset file if does not exist.
+    /**
+     * Returns the database, creates it from the given asset file if does not exist.
+     *
+     * @param context The context the call was made from.
+     * @return Current database if exists, otherwise creates and returns a new one.
+     */
     static QuestionRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (QuestionRoomDatabase.class) {
